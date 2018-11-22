@@ -34,9 +34,25 @@ namespace HoloToolkit.Unity.InputModule
 
         private void Awake()
         {
-#if !UNITY_EDITOR
-            Destroy(this);
+            if (Application.isEditor)
+            {
+
+#if UNITY_2017_2_OR_NEWER
+                if (UnityEngine.XR.XRDevice.isPresent)
+#else
+                if (UnityEngine.VR.VRDevice.isPresent)
 #endif
+                {
+                    Destroy(this);
+                    return;
+                }
+            }
+            else
+            {
+                Destroy(this);
+                return;
+            }
+
             cameraTransform = GetComponent<Camera>().transform;
             if (cameraTransform == null)
             {
@@ -55,7 +71,6 @@ namespace HoloToolkit.Unity.InputModule
             JoystickXYRotationAxisControl.enabled = JoystickSupported;
             JoystickXYTranslationAxisControl.enabled = JoystickSupported;
             JoystickXZTranslationAxisControl.enabled = JoystickSupported;
-
         }
 
         private void Update()
@@ -119,5 +134,4 @@ namespace HoloToolkit.Unity.InputModule
             cameraTransform.Translate(this.lastTrackerToUnityTranslation, Space.World);
         }
     }
-
 }

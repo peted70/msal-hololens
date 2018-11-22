@@ -50,9 +50,10 @@ namespace HoloToolkit.Unity.InputModule
         private static AudioClip dictationAudioClip;
 
         private static DictationRecognizer dictationRecognizer;
-        
+
         private static bool isTransitioning;
         private static bool hasFailed;
+        private static bool hasListener;
 #endif
 
         #region Unity Methods
@@ -100,14 +101,16 @@ namespace HoloToolkit.Unity.InputModule
 
         #endregion // Unity Methods
 
+
         /// <summary>
         /// Turns on the dictation recognizer and begins recording audio from the default microphone.
         /// </summary>
+        /// <param name="listener">GameObject listening for the dictation input.</param>
         /// <param name="initialSilenceTimeout">The time length in seconds before dictation recognizer session ends due to lack of audio input in case there was no audio heard in the current session.</param>
         /// <param name="autoSilenceTimeout">The time length in seconds before dictation recognizer session ends due to lack of audio input.</param>
         /// <param name="recordingTime">Length in seconds for the manager to listen.</param>
         /// <returns></returns>
-        public static IEnumerator StartRecording(float initialSilenceTimeout = 5f, float autoSilenceTimeout = 20f, int recordingTime = 10)
+        public static IEnumerator StartRecording(GameObject listener = null, float initialSilenceTimeout = 5f, float autoSilenceTimeout = 20f, int recordingTime = 10)
         {
 #if UNITY_WSA || UNITY_STANDALONE_WIN
             if (IsListening || isTransitioning)
@@ -118,6 +121,12 @@ namespace HoloToolkit.Unity.InputModule
 
             IsListening = true;
             isTransitioning = true;
+
+            if (listener != null)
+            {
+                hasListener = true;
+                InputManager.Instance.PushModalInputHandler(listener);
+            }
 
             if (PhraseRecognitionSystem.Status == SpeechSystemStatus.Running)
             {
@@ -149,6 +158,7 @@ namespace HoloToolkit.Unity.InputModule
             textSoFar = new StringBuilder();
             isTransitioning = false;
 #else
+            Debug.LogWarning("Unable to start recording!  Dictation is unsupported for this platform.");
             return null;
 #endif
         }
@@ -157,6 +167,14 @@ namespace HoloToolkit.Unity.InputModule
         /// Ends the recording session.
         /// </summary>
         public static IEnumerator StopRecording()
+        {
+            yield return Instance.StopRecordingInternal();
+        }
+
+        /// <summary>
+        /// Ends the recording session.
+        /// </summary>
+        private IEnumerator StopRecordingInternal()
         {
 #if UNITY_WSA || UNITY_STANDALONE_WIN
             if (!IsListening || isTransitioning)
@@ -168,6 +186,12 @@ namespace HoloToolkit.Unity.InputModule
             IsListening = false;
             isTransitioning = true;
 
+            if (hasListener)
+            {
+                InputManager.Instance.PopModalInputHandler();
+                hasListener = false;
+            }
+
             Microphone.End(DeviceName);
 
             if (dictationRecognizer.Status == SpeechSystemStatus.Running)
@@ -175,6 +199,15 @@ namespace HoloToolkit.Unity.InputModule
                 dictationRecognizer.Stop();
             }
 
+            StartCoroutine(FinishStopRecording());
+#else
+            return null;
+#endif
+        }
+
+        private IEnumerator FinishStopRecording()
+        {
+#if UNITY_WSA || UNITY_STANDALONE_WIN
             while (dictationRecognizer.Status == SpeechSystemStatus.Running)
             {
                 yield return null;
@@ -254,9 +287,10 @@ namespace HoloToolkit.Unity.InputModule
 
         #region IInputSource Implementation
 
-        public SupportedInputInfo GetSupportedInputInfo(uint sourceId)
+        public bool TryGetSourceKind(uint sourceId, out InteractionSourceInfo sourceKind)
         {
-            return SupportedInputInfo.None;
+            sourceKind = InteractionSourceInfo.Voice;
+            return true;
         }
 
         public bool SupportsInputInfo(uint sourceId, SupportedInputInfo inputInfo)
@@ -264,15 +298,72 @@ namespace HoloToolkit.Unity.InputModule
             return (GetSupportedInputInfo(sourceId) & inputInfo) != 0;
         }
 
-        public bool TryGetPosition(uint sourceId, out Vector3 position)
+        public bool TryGetPointerPosition(uint sourceId, out Vector3 position)
         {
             position = Vector3.zero;
             return false;
         }
 
-        public bool TryGetOrientation(uint sourceId, out Quaternion orientation)
+        public bool TryGetPointerRotation(uint sourceId, out Quaternion rotation)
         {
-            orientation = Quaternion.identity;
+            rotation = Quaternion.identity;
+            return false;
+        }
+
+        public bool TryGetPointingRay(uint sourceId, out Ray pointingRay)
+        {
+            pointingRay = default(Ray);
+            return false;
+        }
+
+        public bool TryGetGripPosition(uint sourceId, out Vector3 position)
+        {
+            position = Vector3.zero;
+            return false;
+        }
+
+        public bool TryGetGripRotation(uint sourceId, out Quaternion rotation)
+        {
+            rotation = Quaternion.identity;
+            return false;
+        }
+
+        public SupportedInputInfo GetSupportedInputInfo(uint sourceId)
+        {
+            return SupportedInputInfo.None;
+        }
+
+        public bool TryGetThumbstick(uint sourceId, out bool isPressed, out Vector2 position)
+        {
+            isPressed = false;
+            position = Vector2.zero;
+            return false;
+        }
+
+        public bool TryGetTouchpad(uint sourceId, out bool isPressed, out bool isTouched, out Vector2 position)
+        {
+            isPressed = false;
+            isTouched = false;
+            position = Vector2.zero;
+            return false;
+        }
+
+        public bool TryGetSelect(uint sourceId, out bool isPressed, out double pressedAmount)
+        {
+            isPressed = false;
+            pressedAmount = 0.0;
+            return false;
+        }
+
+        public bool TryGetGrasp(uint sourceId, out bool isPressed)
+        {
+            isPressed = false;
+            return false;
+        }
+
+        public bool TryGetMenu(uint sourceId, out bool isPressed)
+        {
+            isPressed = false;
             return false;
         }
 

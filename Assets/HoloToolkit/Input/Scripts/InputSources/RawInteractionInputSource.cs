@@ -1,11 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
 
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_WSA
-
+#if UNITY_WSA && !UNITY_2017_2_OR_NEWER
+using UnityEngine.VR.WSA.Input;
 #endif
 
 namespace HoloToolkit.Unity.InputModule
@@ -20,6 +21,7 @@ namespace HoloToolkit.Unity.InputModule
     /// This input source only triggers SourceUp/SourceDown and SourceDetected/SourceLost.
     /// Everything else is handled by InteractionInputSource.
     /// </remarks>
+    [Obsolete("Will be removed in a future release")]
     public class RawInteractionInputSource : BaseInputSource
     {
         /// <summary>
@@ -82,7 +84,12 @@ namespace HoloToolkit.Unity.InputModule
             return retVal;
         }
 
-        public override bool TryGetPosition(uint sourceId, out Vector3 position)
+        public override bool TryGetMenu(uint sourceId, out bool isPressed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetPointerPosition(uint sourceId, out Vector3 position)
         {
             SourceData sourceData;
             if (sourceIdToData.TryGetValue(sourceId, out sourceData))
@@ -99,11 +106,51 @@ namespace HoloToolkit.Unity.InputModule
             return false;
         }
 
-        public override bool TryGetOrientation(uint sourceId, out Quaternion orientation)
+        public override bool TryGetPointerRotation(uint sourceId, out Quaternion orientation)
         {
             // Orientation is not supported by any Windows interaction sources
             orientation = Quaternion.identity;
             return false;
+        }
+
+        public override bool TryGetSourceKind(uint sourceId, out InteractionSourceInfo sourceKind)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetGripPosition(uint sourceId, out Vector3 position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetGripRotation(uint sourceId, out Quaternion rotation)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetThumbstick(uint sourceId, out bool isPressed, out Vector2 position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetTouchpad(uint sourceId, out bool isPressed, out bool isTouched, out Vector2 position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetSelect(uint sourceId, out bool isPressed, out double pressedValue)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetGrasp(uint sourceId, out bool isPressed)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool TryGetPointingRay(uint sourceId, out Ray pointingRay)
+        {
+            throw new NotImplementedException();
         }
 
         private void Update()
@@ -120,14 +167,14 @@ namespace HoloToolkit.Unity.InputModule
         /// </summary>
         private void UpdateSourceData()
         {
-#if UNITY_WSA
+#if UNITY_WSA && !UNITY_2017_2_OR_NEWER
             // Poll for updated reading from hands
-            UnityEngine.XR.WSA.Input.InteractionSourceState[] sourceStates = UnityEngine.XR.WSA.Input.InteractionManager.GetCurrentReading();
+            InteractionSourceState[] sourceStates = InteractionManager.GetCurrentReading();
             if (sourceStates != null)
             {
                 for (var i = 0; i < sourceStates.Length; ++i)
                 {
-                    UnityEngine.XR.WSA.Input.InteractionSourceState handSource = sourceStates[i];
+                    InteractionSourceState handSource = sourceStates[i];
                     SourceData sourceData = GetOrAddSourceData(handSource.source);
                     currentSources.Add(handSource.source.id);
 
@@ -137,13 +184,13 @@ namespace HoloToolkit.Unity.InputModule
 #endif
         }
 
-#if UNITY_WSA
+#if UNITY_WSA && !UNITY_2017_2_OR_NEWER
         /// <summary>
         /// Gets the source data for the specified interaction source if it already exists, otherwise creates it.
         /// </summary>
         /// <param name="interactionSource">Interaction source for which data should be retrieved.</param>
         /// <returns>The source data requested.</returns>
-        private SourceData GetOrAddSourceData(UnityEngine.XR.WSA.Input.InteractionSource interactionSource)
+        private SourceData GetOrAddSourceData(InteractionSource interactionSource)
         {
             SourceData sourceData;
             if (!sourceIdToData.TryGetValue(interactionSource.id, out sourceData))
@@ -161,20 +208,20 @@ namespace HoloToolkit.Unity.InputModule
         /// </summary>
         /// <param name="interactionSource">Interaction source to use to update the position.</param>
         /// <param name="sourceData">SourceData structure to update.</param>
-        private void UpdateSourceState(UnityEngine.XR.WSA.Input.InteractionSourceState interactionSource, SourceData sourceData)
+        private void UpdateSourceState(InteractionSourceState interactionSource, SourceData sourceData)
         {
             // Update source position
             Vector3 sourcePosition;
-            if (interactionSource.sourcePose.TryGetPosition(out sourcePosition))
+            if (interactionSource.properties.location.TryGetPosition(out sourcePosition))
             {
                 sourceData.HasPosition = true;
                 sourceData.SourcePosition = sourcePosition;
             }
 
             // Check for source presses
-            if (interactionSource.selectPressed != sourceData.IsSourceDownPending)
+            if (interactionSource.pressed != sourceData.IsSourceDownPending)
             {
-                sourceData.IsSourceDownPending = interactionSource.selectPressed;
+                sourceData.IsSourceDownPending = interactionSource.pressed;
                 sourceData.SourceStateUpdateTimer = SourcePressDelay;
             }
 
@@ -209,11 +256,11 @@ namespace HoloToolkit.Unity.InputModule
             {
                 if (sourceData.IsSourceDown)
                 {
-                    InputManager.Instance.RaiseSourceDown(this, sourceData.SourceId);
+                    InputManager.Instance.RaiseSourceDown(this, sourceData.SourceId, InteractionSourcePressInfo.Select);
                 }
                 else
                 {
-                    InputManager.Instance.RaiseSourceUp(this, sourceData.SourceId);
+                    InputManager.Instance.RaiseSourceUp(this, sourceData.SourceId, InteractionSourcePressInfo.Select);
                 }
             }
         }
