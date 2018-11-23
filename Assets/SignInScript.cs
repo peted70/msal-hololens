@@ -5,6 +5,7 @@ using Microsoft.Identity.Client;
 using System;
 using System.Threading.Tasks;
 using HoloToolkit.Unity;
+using System.Threading;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using System.Net.Http;
@@ -59,14 +60,14 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
                                                      IEnumerable<string> scopes,
                                                      string usrId)
     {
-        var usr = !string.IsNullOrEmpty(usrId) ? app.GetUser(usrId) : null;
-        var userStr = usr != null ? usr.Name : "null";
+        var acct = !string.IsNullOrEmpty(usrId) ? await app.GetAccountAsync(usrId) : null;
+        var userStr = acct != null ? acct.Username : "null";
         Debug.Log($"Found User {userStr}");
         AuthResult res = new AuthResult();
         try
         {
             Debug.Log($"Calling AcquireTokenSilentAsync");
-            res.res = await app.AcquireTokenSilentAsync(scopes, usr).ConfigureAwait(false);
+            res.res = await app.AcquireTokenSilentAsync(scopes, acct).ConfigureAwait(false);
             Debug.Log($"app.AcquireTokenSilentAsync called {res.res}");
         }
         catch (MsalUiRequiredException)
@@ -93,8 +94,82 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
 #if !UNITY_EDITOR && UNITY_WSA
         Debug.Log($"Access Token - {res.res.AccessToken}");
-        ApplicationData.Current.LocalSettings.Values["UserId"] = res.res.User.Identifier;
+        ApplicationData.Current.LocalSettings.Values["UserId"] = res.res.Account.HomeAccountId.Identifier;
 #endif
+        return res;
+    }
+
+    private async Task<AuthResult> AcquireTokenDeviceFlowAsync(PublicClientApplication app, 
+                                                               IEnumerable<string> scopes, 
+                                                               string userId)
+    {
+        AuthResult res = new AuthResult();
+
+        try
+        {
+            // Should we do a silent request here first?
+
+            res.res = await app.AcquireTokenWithDeviceCodeAsync(scopes, string.Empty, deviceCodeCallback =>
+                {
+                    // This will print the message on the console which tells the user where to go sign-in using 
+                    // a separate browser and the code to enter once they sign in.
+                    // The AcquireTokenWithDeviceCodeAsync() method will poll the server after firing this
+                    // device code callback to look for the successful login of the user via that browser.
+                    // This background polling (whose interval and timeout data is also provided as fields in the 
+                    // deviceCodeCallback class) will occur until:
+                    // * The user has successfully logged in via browser and entered the proper code
+                    // * The timeout specified by the server for the lifetime of this code (typically ~15 minutes) has been reached
+                    // * The developing application calls the Cancel() method on a CancellationToken sent into the method.
+                    //   If this occurs, an OperationCanceledException will be thrown (see catch below for more details).
+
+                    UnityEngine.WSA.Application.InvokeOnAppThread(() =>
+                    {
+                        _statusText.text = deviceCodeCallback.Message;
+                    }, true);
+
+                    return Task.FromResult(0);
+
+                }, CancellationToken.None);
+
+            //Console.WriteLine(result.Account.Username);
+        }
+        catch (MsalServiceException ex)
+        {
+            // Kind of errors you could have (in ex.Message)
+
+            // AADSTS50059: No tenant-identifying information found in either the request or implied by any provided credentials.
+            // Mitigation: as explained in the message from Azure AD, the authoriy needs to be tenanted. you have probably created
+            // your public client application with the following authorities:
+            // https://login.microsoftonline.com/common or https://login.microsoftonline.com/organizations
+
+            // AADSTS90133: Device Code flow is not supported under /common or /consumers endpoint.
+            // Mitigation: as explained in the message from Azure AD, the authority needs to be tenanted
+
+            // AADSTS90002: Tenant <tenantId or domain you used in the authority> not found. This may happen if there are 
+            // no active subscriptions for the tenant. Check with your subscription administrator.
+            // Mitigation: if you have an active subscription for the tenant this might be that you have a typo in the 
+            // tenantId (GUID) or tenant domain name.
+            res.err = $"Error Acquiring Token For Device Code:{Environment.NewLine}{ex}";
+            Debug.Log($"{res.err}");
+        }
+        catch (OperationCanceledException)
+        {
+            // If you use a CancellationToken, and call the Cancel() method on it, then this may be triggered
+            // to indicate that the operation was cancelled. 
+            // See https://docs.microsoft.com/en-us/dotnet/standard/threading/cancellation-in-managed-threads 
+            // for more detailed information on how C# supports cancellation in managed threads.
+            res.err = $"Error Acquiring Token For Device Code:{Environment.NewLine} Operation Cancelled";
+            Debug.Log($"{res.err}");
+        }
+        catch (MsalClientException ex)
+        {
+            // Verification code expired before contacting the server
+            // This exception will occur if the user does not manage to sign-in before a time out (15 mins) and the
+            // call to `AcquireTokenWithDeviceCodeAsync` is not cancelled in between
+            res.err = $"Error Acquiring Token For Device Code - Toen Expired:{Environment.NewLine}{ex}";
+            Debug.Log($"{res.err}");
+        }
+
         return res;
     }
 
@@ -138,7 +213,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         if (string.IsNullOrEmpty(res.err))
         {
-            _statusText.text = $"Signed in as {res.res.User.Name}";
+            _statusText.text = $"Signed in as {res.res.Account.Username}";
 
             await ListEmailAsync(res.res.AccessToken, t =>
             {
@@ -156,14 +231,38 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         }
     }
 
-    private void SignOut()
+    private async Task<AuthResult> SignInWithCodeFlowAsync()
+    {
+        var res = await AcquireTokenDeviceFlowAsync(_client, _scopes, _userId);
+
+        if (string.IsNullOrEmpty(res.err))
+        {
+            _statusText.text = $"Signed in as {res.res.Account.Username}";
+
+            await ListEmailAsync(res.res.AccessToken, t =>
+            {
+                _statusText.text += $"\nFrom: {t.from.emailAddress.address}\nSubject:{t.subject}";
+            },
+            t =>
+            {
+                _statusText.text = $"{t}";
+            });
+        }
+        else if (res.err != null)
+        {
+            _statusText.text = $"Error - {res.err}";
+        }
+        return res;
+    }
+
+    private async Task SignOut()
     {
 #if !UNITY_EDITOR && UNITY_WSA
         ApplicationData.Current.LocalSettings.Values["UserId"] = _userId = null;
-        var usr = _client.GetUser(_userId);
-        if (usr != null)
+        var acct = await _client.GetAccountAsync(_userId);
+        if (acct != null)
         {
-            _client.Remove(usr);
+            await _client.RemoveAsync(acct);
         }
 #endif
     }
@@ -178,9 +277,17 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             await SignInAsync();
         }
 
+        if (eventData.RecognizedText == "code flow")
+        {
+            _statusText.text = "Signing In With Code Flow...";
+            _welcomeText.text = "";
+
+            await SignInWithCodeFlowAsync();
+        }
+
         if (eventData.RecognizedText == "sign out")
         {
-            SignOut();
+            await SignOut();
             _statusText.text = "--- Not Signed In ---";
         }
     }
