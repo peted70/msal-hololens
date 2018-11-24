@@ -700,8 +700,13 @@ Prefab:
     - target: {fileID: 102000010767390410, guid: bfdc7f60d7205c84f82a4806a5352d60,
         type: 2}
       propertyPath: m_Text
-      value: "Hello, please use the phrases:\n 'Sign In' for authorization code flow\n'Code
-        Flow' for device code flow or\n'Sign Out'"
+      value: 'Hello, please use the phrases:
+
+        <b>''Sign In''</b> for authorization code flow
+
+        <b>''Code Flow''</b> for device code flow or
+
+        <b>''Sign Out''</b>'
       objectReference: {fileID: 0}
     - target: {fileID: 4000010330146594, guid: bfdc7f60d7205c84f82a4806a5352d60, type: 2}
       propertyPath: m_LocalScale.x
