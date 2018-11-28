@@ -6,6 +6,7 @@ using System;
 using System.Threading.Tasks;
 using HoloToolkit.Unity;
 using System.Threading;
+using System.Linq;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using System.Net.Http;
@@ -124,7 +125,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
                     UnityEngine.WSA.Application.InvokeOnAppThread(() =>
                     {
-                        _statusText.text = deviceCodeCallback.Message;
+                        _statusText.text = InsertBreaks(deviceCodeCallback.Message);
+
                     }, true);
 
                     return Task.FromResult(0);
@@ -171,6 +173,42 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         }
 
         return res;
+    }
+
+    // To sign in,
+    // use a web browser to open the page
+    // https://microsoft.com/devicelogin 
+    // and enter the code
+    // DXX83MFT7
+    // to authenticate.
+    static private string InsertBreaks(string message)
+    {
+        string ret = string.Empty;
+        List<string> strs = message.Split(new char[] { ',' }).ToList();
+
+        foreach (var str in strs)
+        {
+            var split = new List<string>();
+            var startIdx = str.IndexOf("https:");
+            if (startIdx > -1)
+            {
+                var endIdx = str.IndexOf(' ', startIdx);
+
+                if (endIdx > -1)
+                {
+                    split.Add(str.Substring(0, startIdx - 1));
+                    split.Add(str.Substring(startIdx, endIdx - startIdx));
+                    split.Add(str.Substring(endIdx + 1));
+                }
+            }
+
+            if (split.Count > 0)
+                ret += string.Join("\n", split);
+            else
+                ret += str + "\n";
+        }
+
+        return ret;
     }
 
     private async Task ListEmailAsync(string accessToken, Action<Value> success, Action<string> error)
