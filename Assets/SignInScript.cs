@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using HoloToolkit.Unity;
 using System.Threading;
 using System.Linq;
+using System.Net;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using System.Net.Http;
@@ -16,7 +17,7 @@ using Windows.Storage;
 
 public class SignInScript : MonoBehaviour, ISpeechHandler
 {
-    class AuthResult
+    public class AuthResult
     {
         public AuthenticationResult res;
         public string err;
@@ -46,7 +47,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         if (string.IsNullOrEmpty(_userId))
         {
             var tts = GetComponent<TextToSpeech>();
-            tts.StartSpeaking(_welcomeText.text);
+            var text = WebUtility.HtmlDecode(_welcomeText.text);
+            tts.StartSpeaking(text);
         }
         else
         {
@@ -55,6 +57,21 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
             await SignInAsync();
         }
+    }
+
+    public void SignIn()
+    {
+        SignInAsync();
+    }
+
+    public void SignOut()
+    {
+        SignOutAsync();
+    }
+
+    public void CodeFlow()
+    {
+        SignInWithCodeFlowAsync();
     }
 
     private async Task<AuthResult> AcquireTokenAsync(IPublicClientApplication app,
@@ -245,7 +262,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 #endif
     }
 
-    private async Task SignInAsync()
+    public async Task SignInAsync()
     {
         var res = await AcquireTokenAsync(_client, _scopes, _userId);
 
@@ -269,7 +286,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         }
     }
 
-    private async Task<AuthResult> SignInWithCodeFlowAsync()
+    public async Task<AuthResult> SignInWithCodeFlowAsync()
     {
         var res = await AcquireTokenDeviceFlowAsync(_client, _scopes, _userId);
 
@@ -293,7 +310,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         return res;
     }
 
-    private async Task SignOut()
+    public async Task SignOutAsync()
     {
 #if !UNITY_EDITOR && UNITY_WSA
         ApplicationData.Current.LocalSettings.Values["UserId"] = _userId = null;
@@ -325,7 +342,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         if (eventData.RecognizedText == "sign out")
         {
-            await SignOut();
+            await SignOutAsync();
             _statusText.text = "--- Not Signed In ---";
         }
     }

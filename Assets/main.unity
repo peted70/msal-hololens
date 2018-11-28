@@ -118,6 +118,279 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4000010330146594, guid: bfdc7f60d7205c84f82a4806a5352d60,
     type: 2}
   m_PrefabInternal: {fileID: 1081250833}
+--- !u!1001 &48860188
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1737651337}
+    m_Modifications:
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: Targets.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: interactables.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -2.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: CustomButtonIconProfile
+      value: 
+      objectReference: {fileID: 11400000, guid: daa8b5d0e7d499742ab95ba0e84e90a2,
+        type: 2}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].OnTappedEvent.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].OnTappedEvent.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].OnTappedEvent.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].Name
+      value: signin
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].Text
+      value: Sign In
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].DefaultPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].ManipulationPosition
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].Name
+      value: codeflow
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].Text
+      value: Code Flow
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: DisplayType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].DefaultPosition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].ManipulationPosition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].Name
+      value: signout
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].Text
+      value: Sign Out
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: UseHide
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: UseAdjust
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: UseRemove
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].Icon
+      value: signout
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].Icon
+      value: signin
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].Icon
+      value: devicecode
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1737651336}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1737651336}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1737651336}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SignIn
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SignOut
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CodeFlow
+      objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
+  m_IsPrefabAsset: 0
+--- !u!4 &48860189 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c,
+    type: 2}
+  m_PrefabInternal: {fileID: 48860188}
 --- !u!1 &338051074
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,7 +512,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010330146594, guid: bfdc7f60d7205c84f82a4806a5352d60, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 2.29
       objectReference: {fileID: 0}
     - target: {fileID: 4000010330146594, guid: bfdc7f60d7205c84f82a4806a5352d60, type: 2}
       propertyPath: m_LocalPosition.z
@@ -584,6 +857,7 @@ Transform:
   m_Children:
   - {fileID: 2019318259}
   - {fileID: 31061235}
+  - {fileID: 48860189}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
