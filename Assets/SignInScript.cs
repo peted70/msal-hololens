@@ -143,7 +143,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
                     // * The developing application calls the Cancel() method on a CancellationToken sent into the method.
                     //   If this occurs, an OperationCanceledException will be thrown (see catch below for more details).
 
-                    UnityEngine.WSA.Application.InvokeOnAppThread(() =>
+                    UnityEngine.WSA.Application.InvokeOnUIThread(() =>
                     {
                         _statusText.text = InsertBreaks(deviceCodeCallback.Message);
 

@@ -331,13 +331,13 @@ Prefab:
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1737651336}
+      objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -346,13 +346,13 @@ Prefab:
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1737651336}
+      objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
@@ -366,7 +366,7 @@ Prefab:
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[2].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SignOut
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
@@ -376,7 +376,7 @@ Prefab:
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CodeFlow
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
@@ -386,6 +386,16 @@ Prefab:
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[0].EventTarget
+      value: 
+      objectReference: {fileID: 1737651340}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[2].EventTarget
+      value: 
+      objectReference: {fileID: 1737651340}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[1].EventTarget
       value: 
       objectReference: {fileID: 1737651340}
     m_RemovedComponents: []
