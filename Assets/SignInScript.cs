@@ -61,16 +61,19 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
     public void SignIn()
     {
+        Debug.Log("SignIn() handler called");
         SignInAsync();
     }
 
     public void SignOut()
     {
+        Debug.Log("SignOut() handler called");
         SignOutAsync();
     }
 
     public void CodeFlow()
     {
+        Debug.Log("CodeFlow() handler called");
         SignInWithCodeFlowAsync();
     }
 

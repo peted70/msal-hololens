@@ -143,7 +143,7 @@ Prefab:
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
       propertyPath: buttons.Array.data[0].OnTappedEvent.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
@@ -383,6 +383,11 @@ Prefab:
       propertyPath: buttons.Array.data[1].OnTappedEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: buttons.Array.data[0].EventTarget
+      value: 
+      objectReference: {fileID: 1737651340}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
   m_IsPrefabAsset: 0
@@ -671,6 +676,7 @@ GameObject:
   - component: {fileID: 1737651331}
   - component: {fileID: 1737651338}
   - component: {fileID: 1737651339}
+  - component: {fileID: 1737651340}
   m_Layer: 0
   m_Name: Root
   m_TagString: Untagged
@@ -885,6 +891,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pivotAxis: 0
   targetTransform: {fileID: 0}
+--- !u!114 &1737651340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1737651330}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b93b875d0564ee24eb4da22ec81d8b3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactables: []
+  Targets: []
+  lockFocus: 0
 --- !u!1001 &1785451624
 Prefab:
   m_ObjectHideFlags: 0
