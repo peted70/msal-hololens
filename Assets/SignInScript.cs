@@ -9,6 +9,7 @@ using System.Threading;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using HoloToolkit.Unity.Collections;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using System.Net.Http;
@@ -276,6 +277,13 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
             await ListEmailAsync(res.res.AccessToken, t =>
             {
+                var collGameObj = gameObject.transform.Find("EmailCollection");
+                var collection = collGameObj.GetComponent<ObjectCollection>();
+
+                // Get a prefab to instantiate...
+                var emailObj = (GameObject)Instantiate(Resources.Load("EmailPrefab"));
+                collection.NodeList.Add(new CollectionNode() { transform = emailObj.transform });
+
                 // put messages in a text ui element...
                 _statusText.text += $"\nFrom: {t.from.emailAddress.address}\nSubject:{t.subject}";
             },
