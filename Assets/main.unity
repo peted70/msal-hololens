@@ -189,15 +189,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalScale.x
-      value: 20
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalScale.y
-      value: 20
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalScale.z
-      value: 20
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}

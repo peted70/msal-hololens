@@ -284,6 +284,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
                 var emailObj = (GameObject)Instantiate(Resources.Load("EmailPrefab"));
                 collection.NodeList.Add(new CollectionNode() { transform = emailObj.transform });
 
+                collection.UpdateCollection();
+
                 // put messages in a text ui element...
                 _statusText.text += $"\nFrom: {t.from.emailAddress.address}\nSubject:{t.subject}";
             },
