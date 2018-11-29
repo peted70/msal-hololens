@@ -8,6 +8,7 @@ using HoloToolkit.Unity;
 using System.Threading;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using System.Net.Http;
@@ -47,7 +48,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         if (string.IsNullOrEmpty(_userId))
         {
             var tts = GetComponent<TextToSpeech>();
-            var text = WebUtility.HtmlDecode(_welcomeText.text);
+            var text = Regex.Replace(_welcomeText.text, "<.*?>", String.Empty);
             tts.StartSpeaking(text);
         }
         else
@@ -143,15 +144,15 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
                     // * The developing application calls the Cancel() method on a CancellationToken sent into the method.
                     //   If this occurs, an OperationCanceledException will be thrown (see catch below for more details).
 
-                    UnityEngine.WSA.Application.InvokeOnUIThread(() =>
+                    UnityEngine.WSA.Application.InvokeOnAppThread(() =>
                     {
                         _statusText.text = InsertBreaks(deviceCodeCallback.Message);
 
-                    }, true);
+                    }, false);
 
                     return Task.FromResult(0);
 
-                }, CancellationToken.None);
+                }, CancellationToken.None).ConfigureAwait(false);
 
             //Console.WriteLine(result.Account.Username);
         }
@@ -329,27 +330,41 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     {
         if (eventData.RecognizedText == "sign in")
         {
-            _statusText.text = "Signing In...";
-            _welcomeText.text = "";
-
-            await SignInAsync();
+            await HandleSignInAsync();
         }
 
         if (eventData.RecognizedText == "code flow")
         {
-            _statusText.text = "Signing In With Code Flow...";
-            _welcomeText.text = "";
-
-            await SignInWithCodeFlowAsync();
+            await HandleSignInWithCodeFlowAsync();
         }
 
         if (eventData.RecognizedText == "sign out")
         {
-            await SignOutAsync();
-            _statusText.text = "--- Not Signed In ---";
+            await HandleSignOutAsync();
         }
     }
 
+    public async Task HandleSignOutAsync()
+    {
+        await SignOutAsync();
+        _statusText.text = "--- Not Signed In ---";
+    }
+
+    public async Task HandleSignInWithCodeFlowAsync()
+    {
+        _statusText.text = "Signing In With Code Flow...";
+        _welcomeText.text = "";
+
+        await SignInWithCodeFlowAsync();
+    }
+
+    public async Task HandleSignInAsync()
+    {
+        _statusText.text = "Signing In...";
+        _welcomeText.text = "";
+
+        await SignInAsync();
+    }
 
     [Serializable]
     public class Rootobject

@@ -161,7 +161,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.3
+      value: -2.77
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalPosition.z
@@ -189,15 +189,15 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalScale.y
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalScale.z
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
@@ -1008,9 +1008,9 @@ Prefab:
 
         <b>''Sign In''</b> for authorization code flow
 
-        <b>''Code Flow''</b> for device code flow or
+        <b>''Code Flow''</b> for device code flow
 
-        <b>''Sign Out''</b>'
+        or <b>''Sign Out''</b>'
       objectReference: {fileID: 0}
     - target: {fileID: 4000010330146594, guid: bfdc7f60d7205c84f82a4806a5352d60, type: 2}
       propertyPath: m_LocalScale.x

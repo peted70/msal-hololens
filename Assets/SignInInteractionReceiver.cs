@@ -26,15 +26,15 @@ public class SignInInteractionReceiver : InteractionReceiver
         {
             case "signin":
                 Debug.Log("SignIn button clicked - calling SignInAsync");
-                await _signInScript.SignInAsync();
+                await _signInScript.HandleSignInAsync();
                 break;
             case "codeflow":
                 Debug.Log("codeflow button clicked - calling SignInWithCodeFlowAsync");
-                await _signInScript.SignInWithCodeFlowAsync();
+                await _signInScript.HandleSignInWithCodeFlowAsync();
                 break;
             case "signout":
                 Debug.Log("signout button clicked - calling SignOutAsync");
-                await _signInScript.SignOutAsync();
+                await _signInScript.HandleSignOutAsync();
                 break;
             default:
                 break;
