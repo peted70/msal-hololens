@@ -10,6 +10,8 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using HoloToolkit.Unity.Collections;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using System.Net.Http;
@@ -253,7 +255,6 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
     private async Task ListEmailAsync(string accessToken, Action<Value> success, Action<string> error)
     {
-#if !UNITY_EDITOR && UNITY_WSA
         var http = new HttpClient();
         http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
         var response = await http.GetAsync("https://graph.microsoft.com/v1.0/me/messages?$top=5");
@@ -282,7 +283,6 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         {
             success(msg);
         }
-#endif
     }
 
     public async Task SignInAsync()
