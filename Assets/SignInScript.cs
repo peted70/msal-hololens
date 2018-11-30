@@ -293,20 +293,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         {
             _statusText.text = $"Signed in as {res.res.Account.Username}";
 
-            await ListEmailAsync(res.res.AccessToken, t =>
-            {
-                var collGameObj = gameObject.transform.Find("EmailCollection");
-                var collection = collGameObj.GetComponent<ObjectCollection>();
-
-                // Get a prefab to instantiate...
-                var emailObj = (GameObject)Instantiate(Resources.Load("EmailPrefab"));
-                collection.NodeList.Add(new CollectionNode() { transform = emailObj.transform });
-
-                collection.UpdateCollection();
-
-                // put messages in a text ui element...
-                _statusText.text += $"\nFrom: {t.from.emailAddress.address}\nSubject:{t.subject}";
-            },
+            await ListEmailAsync(res.res.AccessToken, OnEmailItem,
             t =>
             {
                 _statusText.text = $"{t}";
@@ -318,6 +305,28 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         }
     }
 
+    private void OnEmailItem(Value item)
+    {
+        var collGameObj = gameObject.transform.Find("EmailCollection");
+        var collection = collGameObj.GetComponent<ObjectCollection>();
+
+        // Get a prefab to instantiate...
+        var emailObj = (GameObject)Instantiate(Resources.Load("EmailPrefab"));
+        var node = new CollectionNode()
+        {
+            Name = item.subject,
+            transform = emailObj.transform
+        };
+        emailObj.transform.parent = collection.transform;
+        node.transform = emailObj.transform;
+
+        collection.NodeList.Add(node);
+        collection.UpdateCollection();
+
+        // put messages in a text ui element...
+        _statusText.text += $"\nFrom: {item.from.emailAddress.address}\nSubject:{item.subject}";
+    }
+
     public async Task<AuthResult> SignInWithCodeFlowAsync()
     {
         var res = await AcquireTokenDeviceFlowAsync(_client, _scopes, _userId);
@@ -326,10 +335,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         {
             _statusText.text = $"Signed in as {res.res.Account.Username}";
 
-            await ListEmailAsync(res.res.AccessToken, t =>
-            {
-                _statusText.text += $"\nFrom: {t.from.emailAddress.address}\nSubject:{t.subject}";
-            },
+            await ListEmailAsync(res.res.AccessToken, OnEmailItem,
             t =>
             {
                 _statusText.text = $"{t}";

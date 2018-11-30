@@ -447,21 +447,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NodeList: []
-  SurfaceType: 3
+  SurfaceType: 1
   SortType: 0
   OrientType: 1
   LayoutType: 0
   IgnoreInactiveTransforms: 1
-  Radius: 2
-  radialRange: 180
-  Rows: 3
-  CellWidth: 0.5
-  CellHeight: 0.5
+  Radius: 1.63
+  radialRange: 118
+  Rows: 10
+  CellWidth: 1
+  CellHeight: 1
   horizontalMargin: 0.2
-  verticalMargin: 0.2
+  verticalMargin: 0.4
   depthMargin: 0.2
-  SphereMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
-  CylinderMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  SphereMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 3}
+  CylinderMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 3}
 --- !u!1 &338051074
 GameObject:
   m_ObjectHideFlags: 0
