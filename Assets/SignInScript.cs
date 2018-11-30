@@ -32,6 +32,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     TextMesh _welcomeText;
     TextMesh _statusText;
 
+    string tempStatusText = string.Empty;
+
     async void Start()
     {
 #if !UNITY_EDITOR && UNITY_WSA
@@ -77,6 +79,17 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     {
         Debug.Log("CodeFlow() handler called");
         SignInWithCodeFlowAsync();
+    }
+
+    private volatile bool set = false;
+
+    private void Update()
+    {
+        if (set)
+        {
+            _statusText.text = tempStatusText;
+            set = false;
+        }
     }
 
     private async Task<AuthResult> AcquireTokenAsync(IPublicClientApplication app,
@@ -147,13 +160,18 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
                     UnityEngine.WSA.Application.InvokeOnAppThread(() =>
                     {
+#if UNITY_EDITOR
+                        tempStatusText = InsertBreaks(deviceCodeCallback.Message);
+                        set = true;
+#else
                         _statusText.text = InsertBreaks(deviceCodeCallback.Message);
+#endif
 
-                    }, false);
+                    }, true);
 
                     return Task.FromResult(0);
 
-                }, CancellationToken.None).ConfigureAwait(false);
+                }, CancellationToken.None).ConfigureAwait(true);
 
             //Console.WriteLine(result.Account.Username);
         }
