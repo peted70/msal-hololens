@@ -311,7 +311,17 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         var collection = collGameObj.GetComponent<ObjectCollection>();
 
         // Get a prefab to instantiate...
-        var emailObj = (GameObject)Instantiate(Resources.Load("EmailPrefab"));
+        var emailObj = (GameObject)Instantiate(Resources.Load("Envelope"));
+        var title = emailObj.transform.Find("Title");
+        var textMesh = title.GetComponent<TextMesh>();
+        textMesh.text = item.subject;
+
+        // Apply a random tilt to the envelope....
+        var envelope = emailObj.transform.Find("EmailPrefab");
+        var vec = new Vector3(UnityEngine.Random.Range(-10.0f, 10.0f), UnityEngine.Random.Range(-10.0f, 10.0f), UnityEngine.Random.Range(-10.0f, 10.0f));
+        envelope.Rotate(vec);
+        title.Rotate(vec);
+ 
         var node = new CollectionNode()
         {
             Name = item.subject,
@@ -324,7 +334,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         collection.UpdateCollection();
 
         // put messages in a text ui element...
-        _statusText.text += $"\nFrom: {item.from.emailAddress.address}\nSubject:{item.subject}";
+        //_statusText.text += $"\nFrom: {item.from.emailAddress.address}\nSubject:{item.subject}";
     }
 
     public async Task<AuthResult> SignInWithCodeFlowAsync()
