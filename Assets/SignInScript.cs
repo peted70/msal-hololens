@@ -6,13 +6,12 @@ using System;
 using System.Threading.Tasks;
 using HoloToolkit.Unity;
 using System.Threading;
-using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using HoloToolkit.Unity.Collections;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using HoloToolkit.Unity.Buttons;
+using TMPro;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using Windows.Storage;
@@ -30,9 +29,12 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     PublicClientApplication _client;
     string _userId;
 
-    TextMesh _welcomeText;
-    TextMesh _statusText;
-    TextMesh _signedInStatusText;
+    GameObject _statusPanel;
+    GameObject _emailDetailsPanel;
+
+    TextMeshPro _welcomeText;
+    TextMeshPro _statusText;
+    TextMeshPro _signedInStatusText;
 
     string tempStatusText = string.Empty;
 
@@ -45,9 +47,15 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 #endif
         _scopes = new List<string>() { "User.Read", "Mail.Read" };
         _client = new PublicClientApplication("e90a5e05-a177-468a-9f6e-eee32b946f86");
-        _welcomeText = transform.Find("WelcomeText").GetComponent<TextMesh>();
-        _statusText = transform.Find("StatusText").GetComponent<TextMesh>();
-        _signedInStatusText = transform.Find("SignedInStatusText").GetComponent<TextMesh>();
+
+        _statusPanel = transform.Find("StatusPanel").gameObject;
+        _emailDetailsPanel = transform.Find("EmailDetailsPanel").gameObject;
+
+        _emailDetailsPanel.SetActive(false);
+
+        _welcomeText = _statusPanel.transform.Find("WelcomeText").GetComponent<TextMeshPro>();
+        _signedInStatusText = transform.Find("SignedInStatusText").GetComponent<TextMeshPro>();
+        _statusText = _statusPanel.transform.Find("StatusText").GetComponent<TextMeshPro>();
         _signedInStatusText.text = "--- Not Signed In ---";
 
         Debug.Log($"User ID: {_userId}");
@@ -165,10 +173,10 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
                     UnityEngine.WSA.Application.InvokeOnAppThread(() =>
                     {
 #if UNITY_EDITOR
-                        tempStatusText = InsertBreaks(deviceCodeCallback.Message);
+                        tempStatusText = deviceCodeCallback.Message;
                         set = true;
 #else
-                        _statusText.text = InsertBreaks(deviceCodeCallback.Message);
+                        _statusText.text = deviceCodeCallback.Message;
 #endif
 
                     }, true);
@@ -217,42 +225,6 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         }
 
         return res;
-    }
-
-    // To sign in,
-    // use a web browser to open the page
-    // https://microsoft.com/devicelogin 
-    // and enter the code
-    // DXX83MFT7
-    // to authenticate.
-    static private string InsertBreaks(string message)
-    {
-        string ret = string.Empty;
-        List<string> strs = message.Split(new char[] { ',' }).ToList();
-
-        foreach (var str in strs)
-        {
-            var split = new List<string>();
-            var startIdx = str.IndexOf("https:");
-            if (startIdx > -1)
-            {
-                var endIdx = str.IndexOf(' ', startIdx);
-
-                if (endIdx > -1)
-                {
-                    split.Add(str.Substring(0, startIdx - 1));
-                    split.Add(str.Substring(startIdx, endIdx - startIdx));
-                    split.Add(str.Substring(endIdx + 1));
-                }
-            }
-
-            if (split.Count > 0)
-                ret += string.Join("\n", split);
-            else
-                ret += str + "\n";
-        }
-
-        return ret;
     }
 
     private async Task ListEmailAsync(string accessToken, Action<Value> success, Action<string> error)
@@ -348,6 +320,9 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     private void OnButtonPressed(GameObject obj)
     {
         var emailData = obj.GetComponent<EmailData>();
+
+        _statusText.text = "";
+
 
         // Display the email data...
         DisplayEmail(emailData);
