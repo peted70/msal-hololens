@@ -350,6 +350,11 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         var emailData = obj.GetComponent<EmailData>();
 
         // Display the email data...
+        DisplayEmail(emailData);
+    }
+
+    private void DisplayEmail(EmailData emailData)
+    {
 
     }
 
