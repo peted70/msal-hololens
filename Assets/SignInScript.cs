@@ -31,6 +31,9 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
     GameObject _statusPanel;
     GameObject _emailDetailsPanel;
+    TextMeshPro _fromText;
+    TextMeshPro _subjectText;
+    TextMeshPro _bodyText;
 
     TextMeshPro _welcomeText;
     TextMeshPro _statusText;
@@ -50,6 +53,10 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         _statusPanel = transform.Find("StatusPanel").gameObject;
         _emailDetailsPanel = transform.Find("EmailDetailsPanel").gameObject;
+
+        _fromText = _emailDetailsPanel.transform.Find("FromText").gameObject.GetComponent<TextMeshPro>();
+        _subjectText = _emailDetailsPanel.transform.Find("SubjectText").gameObject.GetComponent<TextMeshPro>();
+        _bodyText = _emailDetailsPanel.transform.Find("BodyText").gameObject.GetComponent<TextMeshPro>();
 
         _emailDetailsPanel.SetActive(false);
 
@@ -273,6 +280,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             {
                 _statusText.text = $"{t}";
             });
+
+            _statusPanel.SetActive(false);
         }
         else
         {
@@ -294,16 +303,16 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         button.OnButtonPressed += OnButtonPressed;
 
         var title = emailObj.transform.Find("EnvelopeParent/Title");
-        var textMesh = title.GetComponent<TextMesh>();
+        var textMesh = title.GetComponent<TextMeshPro>();
         textMesh.text = item.subject;
 
         // Apply a random tilt to the envelope....
         var envelope = emailObj.transform.Find("EnvelopeParent/EmailPrefab");
-        var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
-                              UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
-                              UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
-        envelope.Rotate(vec);
-        title.Rotate(vec);
+        //var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+        //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+        //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
+        //envelope.Rotate(vec);
+        //title.Rotate(vec);
  
         var node = new CollectionNode()
         {
@@ -323,14 +332,17 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         _statusText.text = "";
 
-
         // Display the email data...
         DisplayEmail(emailData);
     }
 
     private void DisplayEmail(EmailData emailData)
     {
+        _emailDetailsPanel.SetActive(true);
 
+        _fromText.text = emailData.MessageData.from.emailAddress.name;
+        _subjectText.text = emailData.MessageData.subject;
+        _bodyText.text = emailData.MessageData.bodyPreview;
     }
 
     public async Task<AuthResult> SignInWithCodeFlowAsync()
@@ -347,6 +359,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             {
                 _statusText.text = $"{t}";
             });
+
+            _statusPanel.SetActive(false);
         }
         else if (res.err != null)
         {
