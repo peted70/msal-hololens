@@ -12,10 +12,9 @@ using System.Text.RegularExpressions;
 using HoloToolkit.Unity.Collections;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using HoloToolkit.Unity.Buttons;
 
 #if !UNITY_EDITOR && UNITY_WSA
-using System.Net.Http;
-using System.Net.Http.Headers;
 using Windows.Storage;
 #endif
 
@@ -33,6 +32,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
     TextMesh _welcomeText;
     TextMesh _statusText;
+    TextMesh _signedInStatusText;
 
     string tempStatusText = string.Empty;
 
@@ -47,7 +47,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         _client = new PublicClientApplication("e90a5e05-a177-468a-9f6e-eee32b946f86");
         _welcomeText = transform.Find("WelcomeText").GetComponent<TextMesh>();
         _statusText = transform.Find("StatusText").GetComponent<TextMesh>();
-        _statusText.text = "--- Not Signed In ---";
+        _signedInStatusText = transform.Find("SignedInStatusText").GetComponent<TextMesh>();
+        _signedInStatusText.text = "--- Not Signed In ---";
 
         Debug.Log($"User ID: {_userId}");
         if (string.IsNullOrEmpty(_userId))
@@ -58,7 +59,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         }
         else
         {
-            _statusText.text = "Signing In...";
+            _signedInStatusText.text = "Signing In...";
             _welcomeText.text = "";
 
             await SignInAsync();
@@ -292,7 +293,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         if (string.IsNullOrEmpty(res.err))
         {
-            _statusText.text = $"Signed in as {res.res.Account.Username}";
+            _statusText.text = "";
+            _signedInStatusText.text = $"Signed in as {res.res.Account.Username}";
 
             await ListEmailAsync(res.res.AccessToken, OnEmailItem,
             t =>
@@ -313,6 +315,12 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         // Get a prefab to instantiate...
         var emailObj = (GameObject)Instantiate(Resources.Load("Envelope"));
+        var emailData = emailObj.AddComponent<EmailData>();
+        emailData.MessageData = item;
+
+        var button = emailObj.GetComponentInChildren<Button>();
+        button.OnButtonPressed += OnButtonPressed;
+
         var title = emailObj.transform.Find("EnvelopeParent/Title");
         var textMesh = title.GetComponent<TextMesh>();
         textMesh.text = item.subject;
@@ -335,9 +343,12 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         collection.NodeList.Add(node);
         collection.UpdateCollection();
+    }
 
-        // put messages in a text ui element...
-        //_statusText.text += $"\nFrom: {item.from.emailAddress.address}\nSubject:{item.subject}";
+    private void OnButtonPressed(GameObject obj)
+    {
+        var emailData = obj.GetComponent<EmailData>();
+
     }
 
     public async Task<AuthResult> SignInWithCodeFlowAsync()
@@ -346,7 +357,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         if (string.IsNullOrEmpty(res.err))
         {
-            _statusText.text = $"Signed in as {res.res.Account.Username}";
+            _statusText.text = "";
+            _signedInStatusText.text = $"Signed in as {res.res.Account.Username}";
 
             await ListEmailAsync(res.res.AccessToken, OnEmailItem,
             t =>
@@ -394,12 +406,12 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     public async Task HandleSignOutAsync()
     {
         await SignOutAsync();
-        _statusText.text = "--- Not Signed In ---";
+        _signedInStatusText.text = "--- Not Signed In ---";
     }
 
     public async Task HandleSignInWithCodeFlowAsync()
     {
-        _statusText.text = "Signing In With Code Flow...";
+        _signedInStatusText.text = "Signing In With Code Flow...";
         _welcomeText.text = "";
 
         await SignInWithCodeFlowAsync();
@@ -407,7 +419,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
     public async Task HandleSignInAsync()
     {
-        _statusText.text = "Signing In...";
+        _signedInStatusText.text = "Signing In...";
         _welcomeText.text = "";
 
         await SignInAsync();
@@ -512,4 +524,9 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         public string name;
         public string address;
     }
+}
+
+public class EmailData : MonoBehaviour
+{
+    public SignInScript.Value MessageData { get; set; }
 }
