@@ -446,7 +446,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74154c01851d1174b89ac67209b1d140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeList: []
+  NodeList:
+  - Name: 
+    Offset: {x: 0, y: 0}
+    Radius: 0
+    transform: {fileID: 0}
+  - Name: 
+    Offset: {x: 0, y: 0}
+    Radius: 0
+    transform: {fileID: 0}
   SurfaceType: 1
   SortType: 0
   OrientType: 3
@@ -456,7 +464,7 @@ MonoBehaviour:
   radialRange: 118
   Rows: 10
   CellWidth: 1.4
-  CellHeight: 1.4
+  CellHeight: 1.8
   horizontalMargin: 0.2
   verticalMargin: 0.4
   depthMargin: 0.2

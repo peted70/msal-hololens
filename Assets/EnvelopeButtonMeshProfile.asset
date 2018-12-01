@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa22bce62b991ca4b9aadff296ae1e8b, type: 3}
+  m_Name: EnvelopeButtonMeshProfile
+  m_EditorClassIdentifier: 
+  ColorPropertyName: _Color
+  ValuePropertyName: 
+  SmoothStateChanges: 1
+  StickyPressedEvents: 0
+  StickyPressedTime: 0.15
+  AnimationSpeed: 1
+  ButtonStates:
+  - Name: Pressed
+    ActiveState: 0
+    StateColor: {r: 0.39900002, g: 0.38612905, b: 0.2831613, a: 0.49803922}
+    StateValue: 0
+    Offset: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  - Name: Targeted
+    ActiveState: 1
+    StateColor: {r: 0.972549, g: 0.9411765, b: 0.6901961, a: 0}
+    StateValue: 0
+    Offset: {x: 0, y: 0, z: 0}
+    Scale: {x: 1.3, y: 1.3, z: 1.3}
+  - Name: Interactive
+    ActiveState: 2
+    StateColor: {r: 0.972549, g: 0.9411765, b: 0.6901961, a: 0}
+    StateValue: 0
+    Offset: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}
+  - Name: ObservationTargeted
+    ActiveState: 3
+    StateColor: {r: 0.972549, g: 0.9411765, b: 0.6901961, a: 1}
+    StateValue: 0
+    Offset: {x: 0, y: 0, z: 0}
+    Scale: {x: 1.1, y: 1.1, z: 1.1}
+  - Name: Observation
+    ActiveState: 4
+    StateColor: {r: 0.43400002, g: 0.42000002, b: 0.30800003, a: 0}
+    StateValue: 0
+    Offset: {x: 0, y: 0, z: 0}
+    Scale: {x: 1.2, y: 1.2, z: 1.2}
+  - Name: Disabled
+    ActiveState: 5
+    StateColor: {r: 0.4392157, g: 0.4392157, b: 0.4392157, a: 0}
+    StateValue: 0
+    Offset: {x: 0, y: 0, z: 0}
+    Scale: {x: 1, y: 1, z: 1}

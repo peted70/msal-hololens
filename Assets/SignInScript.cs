@@ -84,6 +84,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     }
 
     private volatile bool set = false;
+    private const float ScatterConstant = 6.0f;
 
     private void Update()
     {
@@ -312,13 +313,15 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
         // Get a prefab to instantiate...
         var emailObj = (GameObject)Instantiate(Resources.Load("Envelope"));
-        var title = emailObj.transform.Find("Title");
+        var title = emailObj.transform.Find("EnvelopeParent/Title");
         var textMesh = title.GetComponent<TextMesh>();
         textMesh.text = item.subject;
 
         // Apply a random tilt to the envelope....
-        var envelope = emailObj.transform.Find("EmailPrefab");
-        var vec = new Vector3(UnityEngine.Random.Range(-10.0f, 10.0f), UnityEngine.Random.Range(-10.0f, 10.0f), UnityEngine.Random.Range(-10.0f, 10.0f));
+        var envelope = emailObj.transform.Find("EnvelopeParent/EmailPrefab");
+        var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+                              UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+                              UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
         envelope.Rotate(vec);
         title.Rotate(vec);
  
