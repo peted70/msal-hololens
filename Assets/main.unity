@@ -198,7 +198,7 @@ Prefab:
         type: 2}
       propertyPath: CustomButtonIconProfile
       value: 
-      objectReference: {fileID: 11400000, guid: daa8b5d0e7d499742ab95ba0e84e90a2,
+      objectReference: {fileID: 11400000, guid: 87bf5bc4182c8444993bf342a6bbbb26,
         type: 2}
     - target: {fileID: 114050950401502068, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 2}
