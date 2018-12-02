@@ -393,6 +393,11 @@ Prefab:
       propertyPath: buttons.Array.data[1].EventTarget
       value: 
       objectReference: {fileID: 1737651340}
+    - target: {fileID: 23284320966475202, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 02db8ac6cd677bf49923651a2714ec9e, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
   m_IsPrefabAsset: 0
