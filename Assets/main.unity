@@ -180,7 +180,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4773597359991020, guid: aa610ada334bff640a535f0d23a9a15c, type: 2}
       propertyPath: m_LocalScale.x
@@ -424,7 +424,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 168678095}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5, y: -1.5, z: 0}
+  m_LocalPosition: {x: -4, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1737651337}
@@ -441,15 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74154c01851d1174b89ac67209b1d140, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodeList:
-  - Name: 
-    Offset: {x: 0, y: 0}
-    Radius: 0
-    transform: {fileID: 0}
-  - Name: 
-    Offset: {x: 0, y: 0}
-    Radius: 0
-    transform: {fileID: 0}
+  NodeList: []
   SurfaceType: 1
   SortType: 0
   OrientType: 3
@@ -459,9 +451,9 @@ MonoBehaviour:
   radialRange: 118
   Rows: 10
   CellWidth: 1.4
-  CellHeight: 1.8
+  CellHeight: 1.6
   horizontalMargin: 0.2
-  verticalMargin: 0.4
+  verticalMargin: 0.2
   depthMargin: 0.2
   SphereMesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 3}
   CylinderMesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 3}
@@ -556,8 +548,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 350323374}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.84, y: 2.95, z: 0.26}
-  m_LocalScale: {x: 7.2116, y: 8.8453, z: 0.1}
+  m_LocalPosition: {x: 1, y: 2.5, z: 0.26}
+  m_LocalScale: {x: 7.2116, y: 7.5, z: 0.1}
   m_Children:
   - {fileID: 1438548932}
   - {fileID: 2100054694}

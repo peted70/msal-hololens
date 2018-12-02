@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using HoloToolkit.Unity.Buttons;
 using TMPro;
+using System.Net;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using Windows.Storage;
@@ -135,14 +136,20 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             }
             catch (MsalException msalex)
             {
-                res.err = $"Error Acquiring Token:{Environment.NewLine}{msalex}";
+                res.err = $"Error Acquiring Token:{Environment.NewLine}{msalex.Message}";
+                Debug.Log($"{res.err}");
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.err = $"Error Acquiring Token Silently:{Environment.NewLine}{ex.Message}";
                 Debug.Log($"{res.err}");
                 return res;
             }
         }
         catch (Exception ex)
         {
-            res.err = $"Error Acquiring Token Silently:{Environment.NewLine}{ex}";
+            res.err = $"Error Acquiring Token Silently:{Environment.NewLine}{ex.Message}";
             Debug.Log($"{res.err}");
             return res;
         }
@@ -227,7 +234,12 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             // Verification code expired before contacting the server
             // This exception will occur if the user does not manage to sign-in before a time out (15 mins) and the
             // call to `AcquireTokenWithDeviceCodeAsync` is not cancelled in between
-            res.err = $"Error Acquiring Token For Device Code - Toen Expired:{Environment.NewLine}{ex}";
+            res.err = $"Error Acquiring Token For Device Code - Token Expired:{Environment.NewLine}{ex}";
+            Debug.Log($"{res.err}");
+        }
+        catch (Exception ex)
+        {
+            res.err = $"Error: Please check your connection and retry {Environment.NewLine}{ex.Message}";
             Debug.Log($"{res.err}");
         }
 
