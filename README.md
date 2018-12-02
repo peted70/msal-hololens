@@ -16,6 +16,8 @@ mklink /j .\Assets\HoloToolkit .\MixedRealityToolkit-Unity\Assets\HoloToolkit
 
 The current master branch has moved on to include a device code flow which AAD has subsequently added support for. See https://oauth.net/2/grant-types/device-code/. The device code flow allows login from a device that doesn't have a browser so the flow will wait whilst the user logs ion from another device such as a mobile phone. 
 
+![Unity Editor Screenshot](https://github.com/peted70/msal-hololens/blob/master/img/device-code.PNG)
+
 When options are given for 'sign in' and 'sign out' utter the phrase 'code flow' to initiate the OAuth flow
 
 After the flow is initiated navigate a browser on the second device to https://microsoft.com/devicelogin and input the code provided by the HoloLens app UI. Once this has completed the login will complete, if successful and show the top 5 emails from the logged in users' account. 
