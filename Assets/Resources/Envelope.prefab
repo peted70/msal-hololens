@@ -69,6 +69,7 @@ GameObject:
   - component: {fileID: 114134481859277068}
   - component: {fileID: 114635532645393376}
   - component: {fileID: 65736072311220178}
+  - component: {fileID: 114836357224356314}
   m_Layer: 0
   m_Name: Envelope
   m_TagString: Untagged
@@ -376,7 +377,7 @@ MonoBehaviour:
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 1
+  m_isInputParsingRequired: 0
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 23432394112482528}
@@ -390,6 +391,19 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   m_maskType: 0
+--- !u!114 &114836357224356314
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1529349616282008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7f67074a40850544a196681fad1325f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Profile: {fileID: 11400000, guid: 4062ba72d013b8a458f2c8b0bce21011, type: 2}
+  audioSource: {fileID: 0}
 --- !u!222 &222824070688999062
 CanvasRenderer:
   m_ObjectHideFlags: 1
