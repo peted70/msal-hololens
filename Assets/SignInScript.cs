@@ -6,13 +6,13 @@ using System;
 using System.Threading.Tasks;
 using HoloToolkit.Unity;
 using System.Threading;
-using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 using HoloToolkit.Unity.Collections;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using HoloToolkit.Unity.Buttons;
+using TMPro;
+using System.Net;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using Windows.Storage;
@@ -30,9 +30,15 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     PublicClientApplication _client;
     string _userId;
 
-    TextMesh _welcomeText;
-    TextMesh _statusText;
-    TextMesh _signedInStatusText;
+    GameObject _statusPanel;
+    GameObject _emailDetailsPanel;
+    TextMeshPro _fromText;
+    TextMeshPro _subjectText;
+    TextMeshPro _bodyText;
+
+    TextMeshPro _welcomeText;
+    TextMeshPro _statusText;
+    TextMeshPro _signedInStatusText;
 
     string tempStatusText = string.Empty;
 
@@ -45,9 +51,19 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 #endif
         _scopes = new List<string>() { "User.Read", "Mail.Read" };
         _client = new PublicClientApplication("e90a5e05-a177-468a-9f6e-eee32b946f86");
-        _welcomeText = transform.Find("WelcomeText").GetComponent<TextMesh>();
-        _statusText = transform.Find("StatusText").GetComponent<TextMesh>();
-        _signedInStatusText = transform.Find("SignedInStatusText").GetComponent<TextMesh>();
+
+        _statusPanel = transform.Find("StatusPanel").gameObject;
+        _emailDetailsPanel = transform.Find("EmailDetailsPanel").gameObject;
+
+        _fromText = _emailDetailsPanel.transform.Find("FromText").gameObject.GetComponent<TextMeshPro>();
+        _subjectText = _emailDetailsPanel.transform.Find("SubjectText").gameObject.GetComponent<TextMeshPro>();
+        _bodyText = _emailDetailsPanel.transform.Find("BodyText").gameObject.GetComponent<TextMeshPro>();
+
+        _emailDetailsPanel.SetActive(false);
+
+        _welcomeText = _statusPanel.transform.Find("WelcomeText").GetComponent<TextMeshPro>();
+        _signedInStatusText = transform.Find("SignedInStatusText").GetComponent<TextMeshPro>();
+        _statusText = _statusPanel.transform.Find("StatusText").GetComponent<TextMeshPro>();
         _signedInStatusText.text = "--- Not Signed In ---";
 
         Debug.Log($"User ID: {_userId}");
@@ -120,14 +136,20 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             }
             catch (MsalException msalex)
             {
-                res.err = $"Error Acquiring Token:{Environment.NewLine}{msalex}";
+                res.err = $"Error Acquiring Token:{Environment.NewLine}{msalex.Message}";
+                Debug.Log($"{res.err}");
+                return res;
+            }
+            catch (Exception ex)
+            {
+                res.err = $"Error Acquiring Token Silently:{Environment.NewLine}{ex.Message}";
                 Debug.Log($"{res.err}");
                 return res;
             }
         }
         catch (Exception ex)
         {
-            res.err = $"Error Acquiring Token Silently:{Environment.NewLine}{ex}";
+            res.err = $"Error Acquiring Token Silently:{Environment.NewLine}{ex.Message}";
             Debug.Log($"{res.err}");
             return res;
         }
@@ -165,10 +187,10 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
                     UnityEngine.WSA.Application.InvokeOnAppThread(() =>
                     {
 #if UNITY_EDITOR
-                        tempStatusText = InsertBreaks(deviceCodeCallback.Message);
+                        tempStatusText = deviceCodeCallback.Message;
                         set = true;
 #else
-                        _statusText.text = InsertBreaks(deviceCodeCallback.Message);
+                        _statusText.text = deviceCodeCallback.Message;
 #endif
 
                     }, true);
@@ -212,47 +234,16 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             // Verification code expired before contacting the server
             // This exception will occur if the user does not manage to sign-in before a time out (15 mins) and the
             // call to `AcquireTokenWithDeviceCodeAsync` is not cancelled in between
-            res.err = $"Error Acquiring Token For Device Code - Toen Expired:{Environment.NewLine}{ex}";
+            res.err = $"Error Acquiring Token For Device Code - Token Expired:{Environment.NewLine}{ex}";
+            Debug.Log($"{res.err}");
+        }
+        catch (Exception ex)
+        {
+            res.err = $"Error: Please check your connection and retry {Environment.NewLine}{ex.Message}";
             Debug.Log($"{res.err}");
         }
 
         return res;
-    }
-
-    // To sign in,
-    // use a web browser to open the page
-    // https://microsoft.com/devicelogin 
-    // and enter the code
-    // DXX83MFT7
-    // to authenticate.
-    static private string InsertBreaks(string message)
-    {
-        string ret = string.Empty;
-        List<string> strs = message.Split(new char[] { ',' }).ToList();
-
-        foreach (var str in strs)
-        {
-            var split = new List<string>();
-            var startIdx = str.IndexOf("https:");
-            if (startIdx > -1)
-            {
-                var endIdx = str.IndexOf(' ', startIdx);
-
-                if (endIdx > -1)
-                {
-                    split.Add(str.Substring(0, startIdx - 1));
-                    split.Add(str.Substring(startIdx, endIdx - startIdx));
-                    split.Add(str.Substring(endIdx + 1));
-                }
-            }
-
-            if (split.Count > 0)
-                ret += string.Join("\n", split);
-            else
-                ret += str + "\n";
-        }
-
-        return ret;
     }
 
     private async Task ListEmailAsync(string accessToken, Action<Value> success, Action<string> error)
@@ -301,6 +292,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             {
                 _statusText.text = $"{t}";
             });
+
+            _statusPanel.SetActive(false);
         }
         else
         {
@@ -322,16 +315,16 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         button.OnButtonPressed += OnButtonPressed;
 
         var title = emailObj.transform.Find("EnvelopeParent/Title");
-        var textMesh = title.GetComponent<TextMesh>();
+        var textMesh = title.GetComponent<TextMeshPro>();
         textMesh.text = item.subject;
 
         // Apply a random tilt to the envelope....
         var envelope = emailObj.transform.Find("EnvelopeParent/EmailPrefab");
-        var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
-                              UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
-                              UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
-        envelope.Rotate(vec);
-        title.Rotate(vec);
+        //var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+        //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+        //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
+        //envelope.Rotate(vec);
+        //title.Rotate(vec);
  
         var node = new CollectionNode()
         {
@@ -349,13 +342,19 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     {
         var emailData = obj.GetComponent<EmailData>();
 
+        _statusText.text = "";
+
         // Display the email data...
         DisplayEmail(emailData);
     }
 
     private void DisplayEmail(EmailData emailData)
     {
+        _emailDetailsPanel.SetActive(true);
 
+        _fromText.text = emailData.MessageData.from.emailAddress.name;
+        _subjectText.text = emailData.MessageData.subject;
+        _bodyText.text = emailData.MessageData.bodyPreview;
     }
 
     public async Task<AuthResult> SignInWithCodeFlowAsync()
@@ -372,6 +371,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             {
                 _statusText.text = $"{t}";
             });
+
+            _statusPanel.SetActive(false);
         }
         else if (res.err != null)
         {
