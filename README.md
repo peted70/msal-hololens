@@ -5,11 +5,14 @@ The original version is tagged here https://github.com/peted70/msal-hololens/tre
 
 The project uses the Mixed Reality Toolkit as a git submodule. To clone you can use the following command:
 
+'''
 git clone --recurse-submodules https://github.com/peted70/msal-hololens.git
-
+'''
 and then to create a symbolic link from the location of the MRTK on disk to the Assets folder in the Unity project use:
 
+'''
 mklink /j .\Assets\HoloToolkit .\MixedRealityToolkit-Unity\Assets\HoloToolkit
+'''
 
 The current master branch has moved on to include a device code flow which AAD has subsequently added support for. See https://oauth.net/2/grant-types/device-code/. The device code flow allows login from a device that doesn't have a browser so the flow will wait whilst the user logs ion from another device such as a mobile phone. 
 
