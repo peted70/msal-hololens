@@ -391,6 +391,13 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         var collection = collGameObj.GetComponent<ObjectCollection>();
         collection.NodeList.Clear();
         collection.UpdateCollection();
+
+        _emailDetailsPanel.SetActive(false);
+        _statusPanel.SetActive(true);
+
+        var tts = GetComponent<TextToSpeech>();
+        var text = Regex.Replace(_welcomeText.text, "<.*?>", String.Empty);
+        tts.StartSpeaking(text);
     }
 
     public async void OnSpeechKeywordRecognized(SpeechEventData eventData)
