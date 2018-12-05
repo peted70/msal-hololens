@@ -186,12 +186,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
                     UnityEngine.WSA.Application.InvokeOnAppThread(() =>
                     {
-#if UNITY_EDITOR
                         tempStatusText = deviceCodeCallback.Message;
                         set = true;
-#else
-                        _statusText.text = deviceCodeCallback.Message;
-#endif
 
                     }, true);
 
@@ -391,6 +387,10 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             await _client.RemoveAsync(acct);
         }
 #endif
+        var collGameObj = gameObject.transform.Find("EmailCollection");
+        var collection = collGameObj.GetComponent<ObjectCollection>();
+        collection.NodeList.Clear();
+        collection.UpdateCollection();
     }
 
     public async void OnSpeechKeywordRecognized(SpeechEventData eventData)
