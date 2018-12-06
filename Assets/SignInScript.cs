@@ -8,11 +8,10 @@ using HoloToolkit.Unity;
 using System.Threading;
 using System.Text.RegularExpressions;
 using HoloToolkit.Unity.Collections;
-using System.Net.Http;
-using System.Net.Http.Headers;
 using HoloToolkit.Unity.Buttons;
 using TMPro;
-using System.Net;
+using System.Collections;
+using UnityEngine.Networking;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using Windows.Storage;
@@ -37,6 +36,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
     TextMeshPro _bodyText;
 
     TextMeshPro _welcomeText;
+    private string _initialWelcomeText;
     TextMeshPro _statusText;
     TextMeshPro _signedInStatusText;
 
@@ -62,6 +62,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         _emailDetailsPanel.SetActive(false);
 
         _welcomeText = _statusPanel.transform.Find("WelcomeText").GetComponent<TextMeshPro>();
+        _initialWelcomeText = _welcomeText.text;
         _signedInStatusText = transform.Find("SignedInStatusText").GetComponent<TextMeshPro>();
         _statusText = _statusPanel.transform.Find("StatusText").GetComponent<TextMeshPro>();
         _signedInStatusText.text = "--- Not Signed In ---";
@@ -242,35 +243,42 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         return res;
     }
 
-    private async Task ListEmailAsync(string accessToken, Action<Value> success, Action<string> error)
+    IEnumerator GetEmail(string accessToken, Action<Value> success, Action<string> error, Action done)
     {
-        var http = new HttpClient();
-        http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        var response = await http.GetAsync("https://graph.microsoft.com/v1.0/me/messages?$top=5");
-        if (!response.IsSuccessStatusCode)
+        using (var www = UnityWebRequest.Get("https://graph.microsoft.com/v1.0/me/messages?$top=5"))
         {
-            error(response.ReasonPhrase);
-            return;
-        }
+            www.SetRequestHeader("Authorization", "Bearer " + accessToken);
+            yield return www.SendWebRequest();
 
-        var respStr = await response.Content.ReadAsStringAsync();
-        Debug.Log(respStr);
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                error(www.error);
+            }
+            else
+            {
+                // Show results as text
+                Debug.Log(www.downloadHandler.text);
+                Rootobject email = null;
+                try
+                {
+                    // Parse the Json...
+                    email = JsonUtility.FromJson<Rootobject>(www.downloadHandler.text);
+                }
+                catch (Exception ex)
+                {
+                    Debug.Log($"Error = {ex.Message}");
+                    error(www.error);
+                    yield break;
+                }
+                Debug.Log($"msg count = {email.value.Length}");
+                foreach (var msg in email.value)
+                {
+                    success(msg);
+                }
 
-        Rootobject email = null;
-        try
-        {
-            // Parse the Json...
-            email = JsonUtility.FromJson<Rootobject>(respStr);
-        }
-        catch (Exception ex)
-        {
-            Debug.Log($"Error = {ex.Message}");
-            return;
-        }
-        Debug.Log($"msg count = {email.value.Length}");
-        foreach (var msg in email.value)
-        {
-            success(msg);
+                done();
+            }
         }
     }
 
@@ -283,13 +291,9 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             _statusText.text = "";
             _signedInStatusText.text = $"Signed in as {res.res.Account.Username}";
 
-            await ListEmailAsync(res.res.AccessToken, OnEmailItem,
-            t =>
-            {
-                _statusText.text = $"{t}";
-            });
-
-            _statusPanel.SetActive(false);
+            StartCoroutine(GetEmail(res.res.AccessToken, OnEmailItem, 
+                t => _statusText.text = $"{t}",
+                () => _statusPanel.SetActive(false)));
         }
         else
         {
@@ -362,13 +366,9 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             _statusText.text = "";
             _signedInStatusText.text = $"Signed in as {res.res.Account.Username}";
 
-            await ListEmailAsync(res.res.AccessToken, OnEmailItem,
-            t =>
-            {
-                _statusText.text = $"{t}";
-            });
-
-            _statusPanel.SetActive(false);
+            StartCoroutine(GetEmail(res.res.AccessToken, OnEmailItem,
+                t => _statusText.text = $"{t}",
+                () => _statusPanel.SetActive(false)));
         }
         else if (res.err != null)
         {
@@ -389,11 +389,18 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 #endif
         var collGameObj = gameObject.transform.Find("EmailCollection");
         var collection = collGameObj.GetComponent<ObjectCollection>();
+        foreach (var node in collection.NodeList)
+        {
+            Destroy(node.transform.gameObject);
+        }
         collection.NodeList.Clear();
         collection.UpdateCollection();
 
         _emailDetailsPanel.SetActive(false);
         _statusPanel.SetActive(true);
+
+        // Re-instate the cached welcome text
+        _welcomeText.text = _initialWelcomeText;
 
         var tts = GetComponent<TextToSpeech>();
         var text = Regex.Replace(_welcomeText.text, "<.*?>", String.Empty);
