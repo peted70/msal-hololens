@@ -83,24 +83,6 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         }
     }
 
-    public void SignIn()
-    {
-        Debug.Log("SignIn() handler called");
-        SignInAsync();
-    }
-
-    public void SignOut()
-    {
-        Debug.Log("SignOut() handler called");
-        SignOutAsync();
-    }
-
-    public void CodeFlow()
-    {
-        Debug.Log("CodeFlow() handler called");
-        SignInWithCodeFlowAsync();
-    }
-
     private volatile bool set = false;
     private const float ScatterConstant = 6.0f;
 
@@ -319,7 +301,7 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         textMesh.text = item.subject;
 
         // Apply a random tilt to the envelope....
-        var envelope = emailObj.transform.Find("EnvelopeParent/EmailPrefab");
+        //var envelope = emailObj.transform.Find("EnvelopeParent/EmailPrefab");
         //var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
         //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
         //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
