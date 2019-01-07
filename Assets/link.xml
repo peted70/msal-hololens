@@ -1,0 +1,5 @@
+<linker>
+       <assembly fullname="Microsoft.Identity.Client">
+               <type fullname="Microsoft.Identity.Core.OAuth2.OAuth2ResponseBase" preserve="all"/>
+       </assembly>
+</linker>
