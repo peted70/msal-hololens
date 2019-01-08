@@ -6,5 +6,8 @@
                <type fullname="Microsoft.Identity.Client.Features.DeviceCode.DeviceCodeResponse" preserve="all"/>
                <type fullname="Microsoft.Identity.Core.OAuth2.MsalTokenResponse" preserve="all"/>
                <type fullname="Microsoft.Identity.Core.ClientInfo" preserve="all"/>
+               <type fullname="Microsoft.Identity.Core.IdToken" preserve="all"/>
+               <type fullname="Microsoft.Identity.Core.Cache.MsalCredentialCacheItemBase" preserve="all"/>
+               <type fullname="Microsoft.Identity.Core.Cache.MsalAccessTokenCacheItem" preserve="all"/>
        </assembly>
 </linker>
