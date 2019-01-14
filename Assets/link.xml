@@ -10,4 +10,5 @@
                <type fullname="Microsoft.Identity.Core.Cache.MsalCredentialCacheItemBase" preserve="all"/>
                <type fullname="Microsoft.Identity.Core.Cache.MsalAccessTokenCacheItem" preserve="all"/> -->
        </assembly>
+       <assembly fullname="System.Runtime.Serialization" preserve="all"/>
 </linker>
