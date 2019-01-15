@@ -4,13 +4,14 @@ Folowing the Unity announcement about deprecating the .NET backend I have been s
 
 Just to give a very high-level description of what this means; using the .NET backend would generate a .NET UWP project when building my Unity project. I would work with C# code in Visual Studio and deploy my .NET app to a HoloLens device. When I build an IL2CPP project in Unity it creates a native C++ Visual Studio project which is generated including the C# that you write in your Unity scripts. So effectively converts .NET code into native C++. 
 
-Ther is a managed debugger so you can continue to work with C# in a debugging experience. In the Unity build settings if you check 'Wait for managed Debugger' then when you run the resulting app on the HoloLens it will put up a dialog which will wait giving you a chance to hook up the managed debugger.
+There is a managed debugger so you can continue to work with C# in a debugging experience. In the Unity build settings if you check 'Wait for managed Debugger' then when you run the resulting app on the HoloLens it will put up a dialog which will wait giving you a chance to hook up the managed debugger.
 
-< 2 x images here>
+< "C:\Users\Pete D\Documents\Github\msal-hololens\img\managed debugger.png" >
+< hololens dialog >
 
 I usually open another instance of Visual Studio and choose the menu option Debug > Attach Unity Debugger
 
-< image here>
+< "C:\Users\Pete D\Documents\Github\msal-hololens\img\Attach Unity Debugger.png" >
 
 I can then set breakpoints in my C# scripts as expected. Over the last few Unity versions I have been using this experience has been steadily improving. It seemed initially to be slow and sometimes the debugger wouldn't catch my first-chance exceptions. This works well in 2018.3.0f2 which I am currently using.
 
