@@ -70,9 +70,8 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
         Debug.Log($"User ID: {_userId}");
         if (string.IsNullOrEmpty(_userId))
         {
-            var tts = GetComponent<TextToSpeech>();
-            var text = Regex.Replace(_welcomeText.text, "<.*?>", String.Empty);
-            tts.StartSpeaking(text);
+            var audioSource = GetComponent<AudioSource>();
+            audioSource.PlayOneShot(audioSource.clip);
         }
         else
         {
