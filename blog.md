@@ -19,7 +19,10 @@ I can then set breakpoints in my C# scripts as expected. Over the last few Unity
 
 I was working with a sample that I had previously written using the Microsoft Auth Library which was originally used as an example of delegated auth on HoloLens but I recently extended to also show 'device code flow' which allows the auth to happen on a second device which may be more convenient if typing passwords or codes is required.
 
-< video or images of device code flow>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/pKO8AxSIyGw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+The video shows the device code flow; so, I select the 'code flow' option by gazing and air-tapping (voice commands are also available). The flow is initiated by a call to AcquireTokenWithDeviceCodeAsync which is a method on the PublicClientApplication type from the MSAL library. The UI then shows a url and a code. On my phone (or other device) I navigate to the url in a browser and type in the code. I can then authenticate with my work account credentials and the code then makes a call to the Microsoft Graph API to retrieve emails which I then display when clicking on the envelope models on the left.
+
 
 In order to use the MSAL library I downloaded the Nuget package directly from the Nuget website and then chose the relevant dll to include directly into my Unity project.
 

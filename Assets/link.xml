@@ -1,14 +1,4 @@
 <linker>
-       <assembly fullname="Microsoft.Identity.Client" preserve="all">
-               <!-- <type fullname="Microsoft.Identity.Core.OAuth2.OAuth2ResponseBase" preserve="all"/>
-               <type fullname="Microsoft.Identity.Core.Instance.InstanceDiscoveryResponse" preserve="all"/>
-               <type fullname="Microsoft.Identity.Core.Instance.TenantDiscoveryResponse" preserve="all"/>
-               <type fullname="Microsoft.Identity.Client.Features.DeviceCode.DeviceCodeResponse" preserve="all"/>
-               <type fullname="Microsoft.Identity.Core.OAuth2.MsalTokenResponse" preserve="all"/>
-               <type fullname="Microsoft.Identity.Core.ClientInfo" preserve="all"/>
-               <type fullname="Microsoft.Identity.Core.IdToken" preserve="all"/>
-               <type fullname="Microsoft.Identity.Core.Cache.MsalCredentialCacheItemBase" preserve="all"/>
-               <type fullname="Microsoft.Identity.Core.Cache.MsalAccessTokenCacheItem" preserve="all"/> -->
-       </assembly>
+       <assembly fullname="Microsoft.Identity.Client" preserve="all"/>
        <assembly fullname="System.Runtime.Serialization" preserve="all"/>
 </linker>
