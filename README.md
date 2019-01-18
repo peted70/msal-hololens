@@ -26,6 +26,8 @@ When options are given for 'sign in' and 'sign out' utter the phrase 'code flow'
 
 After the flow is initiated navigate a browser on the second device to https://microsoft.com/devicelogin and input the code provided by the HoloLens app UI. Once this has completed the login will complete, if successful and show the top 5 emails from the logged in users' account.
 
+See https://peted.azurewebsites.net/microsoft-graph-auth-on-hololens-device-code-flow/ for further details.
+
 # IL2CPP
 This demo was orignally developed in both the Unity editor and using the .NET backend. Since Unity are seeking to deprecate the .NET backend in favour of IL2CPP it makes sense to create demos that are tested in this environment. This caused a few issues that I needed to overcome which are exacerbated by the use of third-party libraries. Please see xxx for further details and my experience of working with IL2CPP.
 
