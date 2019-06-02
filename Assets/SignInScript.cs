@@ -1,23 +1,21 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using HoloToolkit.Unity.InputModule;
 using Microsoft.Identity.Client;
 using System;
 using System.Threading.Tasks;
-using HoloToolkit.Unity;
 using System.Threading;
 using System.Text.RegularExpressions;
-using HoloToolkit.Unity.Collections;
-using HoloToolkit.Unity.Buttons;
 using TMPro;
 using System.Collections;
 using UnityEngine.Networking;
+using Microsoft.MixedReality.Toolkit.Input;
+using Microsoft.MixedReality.Toolkit.Utilities;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using Windows.Storage;
 #endif
 
-public class SignInScript : MonoBehaviour, ISpeechHandler
+public class SignInScript : MonoBehaviour, IMixedRealitySpeechHandler
 {
     public class AuthResult
     {
@@ -284,39 +282,39 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
 
     private void OnEmailItem(Value item)
     {
-        var collGameObj = gameObject.transform.Find("EmailCollection");
-        var collection = collGameObj.GetComponent<ObjectCollection>();
+        //var collGameObj = gameObject.transform.Find("EmailCollection");
+        //var collection = collGameObj.GetComponent<ObjectCollection>();
 
-        // Get a prefab to instantiate...
-        var emailObj = (GameObject)Instantiate(Resources.Load("Envelope"));
-        var emailData = emailObj.AddComponent<EmailData>();
-        emailData.MessageData = item;
+        //// Get a prefab to instantiate...
+        //var emailObj = (GameObject)Instantiate(Resources.Load("Envelope"));
+        //var emailData = emailObj.AddComponent<EmailData>();
+        //emailData.MessageData = item;
 
-        var button = emailObj.GetComponentInChildren<Button>();
-        button.OnButtonPressed += OnButtonPressed;
+        //var button = emailObj.GetComponentInChildren<Button>();
+        //button.OnButtonPressed += OnButtonPressed;
 
-        var title = emailObj.transform.Find("EnvelopeParent/Title");
-        var textMesh = title.GetComponent<TextMeshPro>();
-        textMesh.text = item.subject;
+        //var title = emailObj.transform.Find("EnvelopeParent/Title");
+        //var textMesh = title.GetComponent<TextMeshPro>();
+        //textMesh.text = item.subject;
 
-        // Apply a random tilt to the envelope....
-        //var envelope = emailObj.transform.Find("EnvelopeParent/EmailPrefab");
-        //var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
-        //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
-        //                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
-        //envelope.Rotate(vec);
-        //title.Rotate(vec);
+        //// Apply a random tilt to the envelope....
+        ////var envelope = emailObj.transform.Find("EnvelopeParent/EmailPrefab");
+        ////var vec = new Vector3(UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+        ////                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant), 
+        ////                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
+        ////envelope.Rotate(vec);
+        ////title.Rotate(vec);
  
-        var node = new CollectionNode()
-        {
-            Name = item.subject,
-            transform = emailObj.transform
-        };
-        emailObj.transform.parent = collection.transform;
-        node.transform = emailObj.transform;
+        //var node = new CollectionNode()
+        //{
+        //    Name = item.subject,
+        //    transform = emailObj.transform
+        //};
+        //emailObj.transform.parent = collection.transform;
+        //node.transform = emailObj.transform;
 
-        collection.NodeList.Add(node);
-        collection.UpdateCollection();
+        //collection.NodeList.Add(node);
+        //collection.UpdateCollection();
     }
 
     private void OnButtonPressed(GameObject obj)
@@ -368,42 +366,42 @@ public class SignInScript : MonoBehaviour, ISpeechHandler
             await _client.RemoveAsync(acct);
         }
 #endif
-        var collGameObj = gameObject.transform.Find("EmailCollection");
-        var collection = collGameObj.GetComponent<ObjectCollection>();
-        foreach (var node in collection.NodeList)
-        {
-            Destroy(node.transform.gameObject);
-        }
-        collection.NodeList.Clear();
-        collection.UpdateCollection();
+        //var collGameObj = gameObject.transform.Find("EmailCollection");
+        //var collection = collGameObj.GetComponent<GridObjectCollection>();
+        //foreach (var node in collection.NodeList)
+        //{
+        //    Destroy(node.transform.gameObject);
+        //}
+        //collection.NodeList.Clear();
+        //collection.UpdateCollection();
 
-        _emailDetailsPanel.SetActive(false);
-        _statusPanel.SetActive(true);
+        //_emailDetailsPanel.SetActive(false);
+        //_statusPanel.SetActive(true);
 
-        // Re-instate the cached welcome text
-        _welcomeText.text = _initialWelcomeText;
+        //// Re-instate the cached welcome text
+        //_welcomeText.text = _initialWelcomeText;
 
-        var tts = GetComponent<TextToSpeech>();
-        var text = Regex.Replace(_welcomeText.text, "<.*?>", String.Empty);
-        tts.StartSpeaking(text);
+        //var tts = GetComponent<TextToSpeech>();
+        //var text = Regex.Replace(_welcomeText.text, "<.*?>", String.Empty);
+        //tts.StartSpeaking(text);
     }
 
     public async void OnSpeechKeywordRecognized(SpeechEventData eventData)
     {
-        if (eventData.RecognizedText == "sign in")
-        {
-            await HandleSignInAsync();
-        }
+        //if (eventData.Command.Action ==  == "sign in")
+        //{
+        //    await HandleSignInAsync();
+        //}
 
-        if (eventData.RecognizedText == "code flow")
-        {
-            await HandleSignInWithCodeFlowAsync();
-        }
+        //if (eventData.RecognizedText == "code flow")
+        //{
+        //    await HandleSignInWithCodeFlowAsync();
+        //}
 
-        if (eventData.RecognizedText == "sign out")
-        {
-            await HandleSignOutAsync();
-        }
+        //if (eventData.RecognizedText == "sign out")
+        //{
+        //    await HandleSignOutAsync();
+        //}
     }
 
     public async Task HandleSignOutAsync()
