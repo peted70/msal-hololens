@@ -429,6 +429,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3947857685051957395, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685051957395, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
       propertyPath: VoiceCommand
       value: Sign Out
       objectReference: {fileID: 0}
@@ -442,10 +447,40 @@ PrefabInstance:
       propertyPath: RequiresFocus
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3947857685051957395, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685051957395, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685051957395, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1737651336}
+    - target: {fileID: 3947857685051957395, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: HandleSignOutAsync
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685051957395, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3260291379440523098, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 3}
       propertyPath: buttonType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 3}
@@ -462,10 +497,45 @@ PrefabInstance:
       propertyPath: RequiresFocus
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1737651336}
+    - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: HandleSignInWithCodeFlowAsync
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857685348347652, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3260291379652761805, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 3}
       propertyPath: buttonType
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 3}
@@ -481,6 +551,36 @@ PrefabInstance:
         type: 3}
       propertyPath: RequiresFocus
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1737651336}
+    - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: HandleSignInAsync
+      objectReference: {fileID: 0}
+    - target: {fileID: 3947857684192522704, guid: aa610ada334bff640a535f0d23a9a15c,
+        type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 3260291378513708569, guid: aa610ada334bff640a535f0d23a9a15c,
         type: 3}
@@ -2172,8 +2272,8 @@ MonoBehaviour:
   lifetime: 0
   SolverHandler: {fileID: 1737651332}
   referenceDirection: 1
-  minDistance: 1
-  maxDistance: 2
+  minDistance: 0.3
+  maxDistance: 1
   minViewDegrees: 0
   maxViewDegrees: 30
   aspectV: 1
@@ -2328,7 +2428,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1737651330}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.019, z: 5}
+  m_LocalPosition: {x: 0, y: 0.019, z: 1.5}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 1980399144}

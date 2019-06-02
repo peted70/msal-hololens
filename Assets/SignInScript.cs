@@ -4,18 +4,16 @@ using Microsoft.Identity.Client;
 using System;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Text.RegularExpressions;
 using TMPro;
 using System.Collections;
 using UnityEngine.Networking;
-using Microsoft.MixedReality.Toolkit.Input;
 using Microsoft.MixedReality.Toolkit.Utilities;
 
 #if !UNITY_EDITOR && UNITY_WSA
 using Windows.Storage;
 #endif
 
-public class SignInScript : MonoBehaviour, IMixedRealitySpeechHandler
+public class SignInScript : MonoBehaviour
 {
     public class AuthResult
     {
@@ -282,13 +280,13 @@ public class SignInScript : MonoBehaviour, IMixedRealitySpeechHandler
 
     private void OnEmailItem(Value item)
     {
-        //var collGameObj = gameObject.transform.Find("EmailCollection");
-        //var collection = collGameObj.GetComponent<ObjectCollection>();
+        var collGameObj = gameObject.transform.Find("EmailCollection");
+        var collection = collGameObj.GetComponent<GridObjectCollection>();
 
         //// Get a prefab to instantiate...
-        //var emailObj = (GameObject)Instantiate(Resources.Load("Envelope"));
-        //var emailData = emailObj.AddComponent<EmailData>();
-        //emailData.MessageData = item;
+        var emailObj = (GameObject)Instantiate(Resources.Load("Envelope"));
+        var emailData = emailObj.AddComponent<EmailData>();
+        emailData.MessageData = item;
 
         //var button = emailObj.GetComponentInChildren<Button>();
         //button.OnButtonPressed += OnButtonPressed;
@@ -304,7 +302,7 @@ public class SignInScript : MonoBehaviour, IMixedRealitySpeechHandler
         ////                      UnityEngine.Random.Range(-ScatterConstant, ScatterConstant));
         ////envelope.Rotate(vec);
         ////title.Rotate(vec);
- 
+
         //var node = new CollectionNode()
         //{
         //    Name = item.subject,
@@ -386,31 +384,13 @@ public class SignInScript : MonoBehaviour, IMixedRealitySpeechHandler
         //tts.StartSpeaking(text);
     }
 
-    public async void OnSpeechKeywordRecognized(SpeechEventData eventData)
-    {
-        //if (eventData.Command.Action ==  == "sign in")
-        //{
-        //    await HandleSignInAsync();
-        //}
-
-        //if (eventData.RecognizedText == "code flow")
-        //{
-        //    await HandleSignInWithCodeFlowAsync();
-        //}
-
-        //if (eventData.RecognizedText == "sign out")
-        //{
-        //    await HandleSignOutAsync();
-        //}
-    }
-
-    public async Task HandleSignOutAsync()
+    public async void HandleSignOutAsync()
     {
         await SignOutAsync();
         _signedInStatusText.text = "--- Not Signed In ---";
     }
 
-    public async Task HandleSignInWithCodeFlowAsync()
+    public async void HandleSignInWithCodeFlowAsync()
     {
         _signedInStatusText.text = "Signing In With Code Flow...";
         _welcomeText.text = "";
@@ -418,7 +398,7 @@ public class SignInScript : MonoBehaviour, IMixedRealitySpeechHandler
         await SignInWithCodeFlowAsync();
     }
 
-    public async Task HandleSignInAsync()
+    public async void HandleSignInAsync()
     {
         _signedInStatusText.text = "Signing In...";
         _welcomeText.text = "";
